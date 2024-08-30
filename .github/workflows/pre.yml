@@ -1,0 +1,45 @@
+name: Create Vite Project and Push to Root
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18' # Use the Node.js version you prefer
+
+    - name: Create Vite project and install dependencies
+      run: |
+        npm create vite@latest electric-car-search -- --template react
+        cd electric-car-search
+        npm install
+        npm install react-router-dom axios styled-components
+
+    - name: Move project files to root
+      run: |
+        mv electric-car-search/* .
+        mv electric-car-search/.[!.]* .
+        rm -rf electric-car-search
+
+    - name: Commit changes
+      run: |
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
+        git add -A
+        git commit -m "Create Vite project and install dependencies in root"
+
+    - name: Push changes
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git push origin main
