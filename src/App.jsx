@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';  // Ensure these imports are correct
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import Filters from './components/Filters';
@@ -14,11 +14,16 @@ function App() {
       <Header />
       <main>
         <Routes>
-          <Route path="/" element={<>
-            <SearchBar />
-            <Filters />
-            <CarList />
-          </>} />
+          <Route
+            path="/"
+            element={
+              <>
+                <SearchBar />
+                <Filters />
+                <CarList />
+              </>
+            }
+          />
           <Route path="/car/:id" element={<CarDetails />} />
           <Route path="/compare" element={<Compare />} />
         </Routes>
